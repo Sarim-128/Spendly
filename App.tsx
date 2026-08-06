@@ -8,6 +8,7 @@ import Transactions from './src/screens/Transactions';
 import Profile from './src/screens/Profile';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import TabIcon from './src/components/TabIcon';
+import Addtransaction from './src/screens/Addtransaction';
 
 
 
@@ -112,7 +113,8 @@ const App = () => {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{ headerShown: false }}>
         {/* <Stack.Screen name='Login' component={Login}/> */}
-        <Stack.Screen name='DashboardTabs' component={DashboardTabs} />
+        {/* <Stack.Screen name='DashboardTabs' component={DashboardTabs} /> */}
+        <Stack.Screen name='AddTransaction' component={Addtransaction} />
       </Stack.Navigator>
     </NavigationContainer>
   )
