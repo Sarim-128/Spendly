@@ -2,8 +2,12 @@ import { Modal, Platform, StyleSheet, Text, TextInput, TouchableOpacity, View } 
 import React, { useState } from 'react'
 import MainButton from '../components/MainButton'
 import DateTimePicker, { DateTimePickerEvent } from '@react-native-community/datetimepicker'
+import { useTransactions } from './TransactionContext'
+import { Screen } from 'react-native-screens'
 
-const Addtransaction = () => {
+const Addtransaction = ({ navigation }: any) => {
+
+    const { addTransaction } = useTransactions()
 
     const [amount, setAmount] = useState('')
     const [title, setTitle] = useState('')
@@ -28,12 +32,16 @@ const Addtransaction = () => {
     }
 
     const handleSave = () => {
-        const payload = {
+        addTransaction({
             amount: parseFloat(amount) || 0,
-            title,
+            title: title || 'untitled',
             type: transactionType,
-            date: isDateSelected ? date : new Date()
-        }
+            date: isDateSelected ? date.toLocaleDateString() : new Date().toLocaleDateString(),
+        })
+
+
+
+        navigation.navigate('DashboardTabs',{screen:'Dashboard'})
     }
     return (
         <View style={styles.container}>
@@ -63,7 +71,7 @@ const Addtransaction = () => {
 
             <View style={styles.inputContainer}>
                 <Text style={styles.inputHeading}>Title</Text>
-                <TextInput placeholderTextColor="#8d998d" placeholder='Enter Title' style={styles.input} />
+                <TextInput onChangeText={setTitle} value={title} placeholderTextColor="#8d998d" placeholder='Enter Title' style={styles.input} />
             </View>
 
 

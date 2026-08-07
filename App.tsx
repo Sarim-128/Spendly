@@ -9,6 +9,7 @@ import Profile from './src/screens/Profile';
 import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import TabIcon from './src/components/TabIcon';
 import Addtransaction from './src/screens/Addtransaction';
+import { TransactionProvider } from './src/screens/TransactionContext';
 
 
 
@@ -110,13 +111,16 @@ const Stack = createNativeStackNavigator();
 
 const App = () => {
   return (
-    <NavigationContainer>
-      <Stack.Navigator screenOptions={{ headerShown: false }}>
-        {/* <Stack.Screen name='Login' component={Login}/> */}
-        {/* <Stack.Screen name='DashboardTabs' component={DashboardTabs} /> */}
-        <Stack.Screen name='AddTransaction' component={Addtransaction} />
-      </Stack.Navigator>
-    </NavigationContainer>
+    <TransactionProvider>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          {/* <Stack.Screen name='Login' component={Login}/> */}
+          <Stack.Screen name='DashboardTabs' component={DashboardTabs} />
+          <Stack.Screen name='AddTransaction' component={Addtransaction} />
+          {/* <Stack.Screen name='Profile' component={Profile} /> */}
+        </Stack.Navigator>
+      </NavigationContainer>
+    </TransactionProvider>
   )
 }
 

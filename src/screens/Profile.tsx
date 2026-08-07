@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 
 const Profile = ({ navigation }: any) => {
 
-  const [activeTab, setActiveTab] = useState<'recipes' | 'likes'>('recipes')
+  const [activeTab, setActiveTab] = useState<'income' | 'expenses'>('income')
 
   const onShare = async () => {
     try {
@@ -25,38 +25,29 @@ const Profile = ({ navigation }: any) => {
         <View style={styles.headerContainer}>
 
           <TouchableOpacity onPress={onShare}>
-            <Image style={styles.headerImage} source={require('../../assets/images/Profile/shar.png')} />
+            <Image style={styles.headerImage} source={require('../assets/images/profile/share.png')} />
           </TouchableOpacity>
 
           <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'SignIn' }] })}>
-            <Image style={styles.headerImage} source={require('../../assets/images/Profile/logout.png')} />
+            <Image style={styles.headerImage} source={require('../assets/images/profile/logout.png')} />
           </TouchableOpacity>
 
         </View>
 
 
 
-        <Image style={styles.profilePic} source={require('../../assets/images/Profile/pfp4.png')} />
+        <Image style={styles.profilePic} source={require('../assets/images/dashboard/pfp6.jpg')} />
 
 
         <Text style={styles.name}>John Steve</Text>
 
         <View style={styles.statsContainer}>
-          <View style={styles.statBox}>
-            <Text style={styles.dataCount} >32</Text>
-            <Text style={styles.dataText}>Recipes</Text>
-          </View>
 
           <View style={styles.statBox}>
-            <Text style={styles.dataCount}>782</Text>
-            <Text style={styles.dataText}>Following</Text>
+            <Text style={styles.dataCount}>Balance</Text>
+            <Text style={styles.dataText}>$12441</Text>
           </View>
 
-          <View style={styles.statBox}>
-            <Text style={styles.dataCount}>1289</Text>
-            <Text style={styles.dataText}>Followers</Text>
-
-          </View>
         </View>
 
       </View>
@@ -64,10 +55,10 @@ const Profile = ({ navigation }: any) => {
       <View style={styles.tabContainer}>
 
         <TouchableOpacity
-          onPress={() => setActiveTab('recipes')}
-          style={[styles.tabButton, activeTab === 'recipes' && styles.activeTabButton]}
+          onPress={() => setActiveTab('income')}
+          style={[styles.tabButton, activeTab === 'income' && styles.activeTabButton]}
         >
-          <Text style={activeTab === 'recipes' ? styles.btnTextActive : styles.btnTextInactive}>Recipes</Text>
+          <Text style={activeTab === 'income' ? styles.btnTextActive : styles.btnTextInactive}>My Income</Text>
 
 
         </TouchableOpacity>
@@ -75,10 +66,10 @@ const Profile = ({ navigation }: any) => {
 
 
         <TouchableOpacity
-          onPress={() => setActiveTab('likes')}
-          style={[styles.tabButton, activeTab === 'likes' && styles.activeTabButton]}
+          onPress={() => setActiveTab('expenses')}
+          style={[styles.tabButton, activeTab === 'expenses' && styles.activeTabButton]}
         >
-          <Text style={activeTab === 'likes' ? styles.btnTextActive : styles.btnTextInactive}>Likes</Text>
+          <Text style={activeTab === 'expenses' ? styles.btnTextActive : styles.btnTextInactive}>My Expenses</Text>
         </TouchableOpacity>
 
       </View>
@@ -86,18 +77,14 @@ const Profile = ({ navigation }: any) => {
 
       <View style={styles.emptyStateContainer}>
         <Image style={styles.notFoundImage}
-          source={activeTab === 'recipes' ?
-            require('../../assets/images/Profile/book.png')
-            :
-            require('../../assets/images/Profile/heart.png')
-          } />
+        />
 
         <Text style={styles.emptyTitle}>
-          {activeTab === 'recipes' ? "No Recipes Yet ! " : "No Liked Recipe"}
+          {activeTab === 'income' ? "No Recipes Yet ! " : "No Liked Recipe"}
         </Text>
 
         <Text style={styles.emptySubTitle}>
-          {activeTab === 'recipes' ?
+          {activeTab === 'expenses' ?
             "Recipes You upload will be saved here."
             :
             "Recipes you like will be saved here."
@@ -114,10 +101,11 @@ export default Profile
 
 const styles = StyleSheet.create({
   upperContainer: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: '#050E07',
     padding: 25,
     alignItems: 'center',
-    marginBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: '#7FFE8C'
   },
   headerContainer: {
     flexDirection: 'row',
@@ -137,12 +125,12 @@ const styles = StyleSheet.create({
     height: 100,
     borderRadius: 50,
     borderWidth: 3,
-    borderColor: '#3E5481'
+    borderColor: '#7FFE8C'
   },
   name: {
-    color: '#3E5481',
+    color: '#7FFE8C',
     fontSize: 16,
-    fontFamily: 'Inter_24pt-Bold',
+    fontFamily: 'Geist-Bold',
     marginTop: 15,
   },
   statsContainer: {
@@ -155,14 +143,15 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   dataCount: {
-    color: '#3E5481',
-    fontSize: 16,
-    fontFamily: 'Inter_24pt-Bold'
+    color: '#A3BFA5',
+    fontFamily: 'Geist-Regular',
+    marginBottom: 2,
   },
   dataText: {
-    color: '#9FA5C0',
-    fontSize: 12,
-    fontFamily: 'Inter_24pt-Medium'
+    color: '#7FFE8C',
+    fontSize: 18,
+    fontFamily: 'Geist-Bold'
+
   },
   lowerContainer: {
     backgroundColor: '#FFFFFF',
@@ -170,7 +159,7 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around'
   },
   tabContainer: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: "#050E07",
     flexDirection: 'row',
     borderBottomWidth: 1,
     borderBottomColor: '#E2E8F0',
@@ -183,17 +172,17 @@ const styles = StyleSheet.create({
     borderBottomColor: 'transparent',
   },
   activeTabButton: {
-    borderBottomColor: '#1FCC79'
+    borderBottomColor: '#A3BFA5'
   },
   btnTextActive: {
-    color: '#2E3E5C',
+    color: '#A3BFA5',
     fontSize: 16,
-    fontFamily: 'Inter_24pt-Bold',
+    fontFamily: 'Geist-Bold',
   },
   btnTextInactive: {
     color: '#9FA5C0',
     fontSize: 16,
-    fontFamily: 'Inter_24pt-Bold',
+    fontFamily: 'Geist-Bold',
   },
   emptyStateContainer: {
     alignItems: 'center',
@@ -209,13 +198,13 @@ const styles = StyleSheet.create({
   },
   emptyTitle: {
     fontSize: 16,
-    fontFamily: 'Inter_24pt-Bold',
+    fontFamily: 'Geist-Bold',
     color: '#3E5481',
     marginBottom: 6,
   },
   emptySubTitle: {
     fontSize: 14,
-    fontFamily: 'Inter_24pt-Medium',
+    fontFamily: 'Geist-Regular',
     color: '#9FA5C0',
     textAlign: 'center',
   },

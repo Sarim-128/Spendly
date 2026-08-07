@@ -1,11 +1,38 @@
-import { View, Text, ScrollView, Image, StyleSheet, Touchable, TouchableOpacity, FlatList } from 'react-native'
-import React from 'react'
+import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import React, { useCallback, useMemo, useState } from 'react'
+import { useFocusEffect } from '@react-navigation/native'
+import { useTransactions } from './TransactionContext'
+import { FormatCurrency } from '../components/FormatCurrency'
 
-const Dashboard = () => {
+const Dashboard = ({ navigation, route }: any) => {
+
+    const { transactions } = useTransactions();
+    const recentTransactions = transactions.slice(0, 5);
+
+    const { totalBalance, totalIncome, totalExpenses } = useMemo(() => {
+        let income = 0;
+        let expenses = 0;
+
+        transactions.forEach((tx) => {
+            if (tx.type === 'income') {
+                income += tx.amount
+            }
+            else if (tx.type === 'expenses') {
+                expenses += tx.amount
+            }
+        });
+
+        return {
+            totalIncome: income,
+            totalExpenses: expenses,
+            totalBalance: income - expenses
+        }
+    }, [transactions])
+
     return (
         <View style={styles.screenWrapper}>
 
-            <View>
+            <View style={{ flex: 1 }}>
 
                 {/* HEADER SECTION */}
 
@@ -22,7 +49,7 @@ const Dashboard = () => {
 
                 <View style={styles.balanceCardContainer}>
                     <Text style={styles.totalBalanceHeading}>Total Balance</Text>
-                    <Text style={styles.totalBalanceValue}>$21414</Text>
+                    <Text style={styles.totalBalanceValue}>{FormatCurrency(totalBalance)}</Text>
 
                     <View style={styles.secondaryCardsContainer}>
 
@@ -33,7 +60,7 @@ const Dashboard = () => {
                             </View>
                             <View>
                                 <Text style={styles.incomeHeading}>Income</Text>
-                                <Text style={styles.incomeValue}>$2311</Text>
+                                <Text style={styles.incomeValue}>{FormatCurrency(totalIncome)}</Text>
                             </View>
 
                         </View>
@@ -45,7 +72,7 @@ const Dashboard = () => {
                             </View>
                             <View>
                                 <Text style={styles.expenseHeading}>Expenses</Text>
-                                <Text style={styles.expenseValue}>$212</Text>
+                                <Text style={styles.expenseValue}>{FormatCurrency(totalExpenses)}</Text>
                             </View>
 
                         </View>
@@ -57,12 +84,34 @@ const Dashboard = () => {
                 {/* TRANSACTION SECTION */}
                 <View style={styles.transactionContainer}>
                     <Text style={styles.transactionHeading}>Transactions</Text>
-                    <TouchableOpacity>
+                    <TouchableOpacity onPress={() => navigation.navigate('Transactions')}>
                         <Text style={styles.seeAllBtn}>See all ➔</Text>
                     </TouchableOpacity>
 
-                    {/* <FlatList /> */}
+
                 </View>
+
+                <FlatList
+                    showsHorizontalScrollIndicator={false}
+                    style={{ flex: 1 }}
+                    keyExtractor={(item, index) => item.id || index.toString()}
+                    data={recentTransactions}
+                    contentContainerStyle={styles.listContainer}
+                    renderItem={({ item }) => (
+                        <View style={styles.transactionCard}>
+                            <View>
+                                <Text style={styles.txTitle}>{item.title}</Text>
+                                <Text style={styles.txDate}>{item.date}</Text>
+                            </View>
+                            <Text style={item.type === 'income' ? styles.txIncome : styles.txExpenses}>
+                                {item.type === 'income' ? `+$${item.amount}` : `-$${item.amount}`}
+                            </Text>
+                        </View>
+                    )}
+                    ListEmptyComponent={
+                        <Text style={styles.emptyText}>No transactions added yet.</Text>
+                    }
+                />
 
             </View>
 
@@ -70,7 +119,7 @@ const Dashboard = () => {
                 <TouchableOpacity
                     activeOpacity={0.85}
                     onPress={() => {
-                        console.log('Add Button Pressed');
+                        navigation.navigate('AddTransaction')
                     }}
                     style={styles.addButton}
                 >
@@ -193,13 +242,51 @@ const styles = StyleSheet.create({
         fontFamily: 'Geist-Bold',
         fontSize: 14,
     },
+    listContainer: {
+        paddingBottom: 80,
+    },
+    transactionCard: {
+        backgroundColor: '#000',
+        padding: 16,
+        borderRadius: 15,
+        borderWidth: 1,
+        borderColor: '#113C1B',
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        marginBottom: 10,
+    },
+    txTitle: {
+        color: '#FFF',
+        fontSize: 16,
+        fontFamily: 'Geist-Bold',
+    },
+    txDate: {
+        color: '#8d998d',
+        fontSize: 12,
+        marginTop: 4,
+    },
+    txIncome: {
+        color: '#7FFE8C',
+        fontSize: 16,
+        fontFamily: 'Geist-Bold',
+    },
+    txExpenses: {
+        color: '#FF6B6B',
+        fontSize: 16,
+        fontFamily: 'Geist-Bold',
+    },
+    emptyText: {
+        color: '#8d998d',
+        textAlign: 'center',
+        marginTop: 20,
+    },
     addBtnContainer: {
         position: 'absolute',
         bottom: '12%',
         right: '5%',
         zIndex: 10,
         alignItems: 'flex-end',
-        verticalAlign: 'bottom'
     },
     addButton: {
         width: 65,
