@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
         width: "95%",
         alignSelf: 'center',
         borderWidth: 1,
-        borderColor: 'rgba(74, 222, 128, 0.5)'
+        borderColor: 'rgba(74, 222, 128, 0.5)',
+        justifyContent: 'center',
     },
     image: {
         width: 20,
@@ -48,8 +49,8 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        height: '100%',
         color: '#A3BFA5',
-        fontFamily: 'Geist-Regular'
+        fontFamily: 'Geist-Regular',
+
     },
 })

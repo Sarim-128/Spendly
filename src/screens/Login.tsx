@@ -1,9 +1,9 @@
-import { Dimensions, Image, ScrollView, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import MainInput from '../components/MainInput'
 import MainButton from '../components/MainButton'
 import PasswordInput from '../components/PasswordInput'
-import { Blur, Canvas, Circle, RadialGradient, vec, BoxShadow, RoundedRect, rrect, rect, TwoPointConicalGradient, Rect, Skia, Path, LinearGradient } from '@shopify/react-native-skia'
+import { Blur, Canvas, RadialGradient, vec, BoxShadow, RoundedRect, rrect, rect, Rect, Skia, Path, LinearGradient } from '@shopify/react-native-skia'
 
 const { width, height } = Dimensions.get('window');
 const leftRightCard = rrect(rect(0, 0, 58, 58), 18, 18);
@@ -30,13 +30,13 @@ const Login = () => {
             <Canvas style={[StyleSheet.absoluteFill, { flex: 1 }]} pointerEvents="none">
                 <Path path={spotlightPath}>
                     <LinearGradient
-                        start={vec(width, 100)}     // Start at top center
-                        end={vec(width, 260)}       // Direct downward beam travel
+                        start={vec(width / 2, 0)}
+                        end={vec(width / 2, 220)}
                         colors={[
-                            'rgba(74, 222, 128, 0.75)',  // Bright vivid neon source at top
-                            'rgba(34, 197, 94, 0.35)',   // Mid-beam glow
-                            'rgba(21, 128, 61, 0.08)',   // Fading beam tail
-                            'transparent',               // Clean falloff
+                            'rgba(74, 222, 128, 0.75)',
+                            'rgba(34, 197, 94, 0.35)',
+                            'rgba(21, 128, 61, 0.08)',
+                            'transparent',
                         ]}
                         positions={[0, 0.35, 0.75, 1]}
                     />
@@ -107,7 +107,12 @@ const Login = () => {
 
             <View
                 style={styles.box}
-                onLayout={(e) => setBoxLayout(e.nativeEvent.layout)}
+                onLayout={(e) => {
+                    const { width, height } = e.nativeEvent.layout;
+                    requestAnimationFrame(() => {
+                        setBoxLayout({ width, height })
+                    })
+                }}
             >
                 {/* Background Canvas */}
                 {boxLayout.height > 0 && (

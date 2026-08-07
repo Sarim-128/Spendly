@@ -10,6 +10,8 @@ import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import TabIcon from './src/components/TabIcon';
 import Addtransaction from './src/screens/Addtransaction';
 import { TransactionProvider } from './src/screens/TransactionContext';
+import PasswordRecovery from './src/screens/PasswordRecovery';
+import Verification from './src/screens/Verification';
 
 
 
@@ -114,10 +116,11 @@ const App = () => {
     <TransactionProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name='Login' component={Login}/> */}
+          {/* <Stack.Screen name='Login' component={Login} /> */}
+          <Stack.Screen name='PasswordRecovery' component={PasswordRecovery} />
+          <Stack.Screen name='Verification' component={Verification} />
           <Stack.Screen name='DashboardTabs' component={DashboardTabs} />
           <Stack.Screen name='AddTransaction' component={Addtransaction} />
-          {/* <Stack.Screen name='Profile' component={Profile} /> */}
         </Stack.Navigator>
       </NavigationContainer>
     </TransactionProvider>

@@ -1,8 +1,9 @@
-import { Alert, FlatList, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
+import { Alert, FlatList, Image, ScrollView, StyleSheet, Text, Touchable, TouchableOpacity, View } from 'react-native'
 import React from 'react'
 import { useTransactions } from './TransactionContext'
+import { FormatCurrency } from '../components/FormatCurrency';
 
-const Transactions = () => {
+const Transactions = ({ navigation }: any) => {
 
   const { transactions, deleteTransaction } = useTransactions();
 
@@ -30,7 +31,7 @@ const Transactions = () => {
         <FlatList
           data={transactions}
           keyExtractor={(item) => item.id}
-          showsHorizontalScrollIndicator={false}
+          showsVerticalScrollIndicator={false}
           contentContainerStyle={styles.listContainer}
           renderItem={({ item }) => (
             <View style={styles.transactionCard}>
@@ -38,23 +39,40 @@ const Transactions = () => {
                 <Text style={styles.txTitle}>{item.title}</Text>
                 <Text style={styles.txDate}>{item.date}</Text>
               </View>
+
+
               <View style={styles.rightColumn}>
+
                 <Text style={item.type === 'income' ? styles.txIncome : styles.txExpenses}>
-                  {item.type === 'income' ? `+Rs.${item.amount}` : `-Rs.${item.amount}`}
+                  {item.type === 'income' ? `+${FormatCurrency(item.amount)}` : `-${FormatCurrency(item.amount)}`}
                 </Text>
-                <TouchableOpacity onPress={() => handleDeletePrompot(item.id, item.title)} style={styles.deleteBtn}>
-                  <Text style={styles.deleteTxt}>Delete</Text>
+
+                <TouchableOpacity hitSlop={{ top: 10, bottom: 10, left: 10, right: 10 }} onPress={() => handleDeletePrompot(item.id, item.title)} style={styles.deleteBtn}>
+                  <Image style={styles.deleteIcon} source={require('../assets/images/dashboard/delete.png')} />
                 </TouchableOpacity>
               </View>
             </View>
+
+
           )}
           ListEmptyComponent={
             <Text style={styles.emptyText}>No transactions added yet.</Text>
           }
         />
 
+        <TouchableOpacity
+          activeOpacity={0.85}
+          onPress={() => {
+            navigation.navigate('AddTransaction')
+          }}
+
+          style={styles.fabButton}
+        >
+          <Text style={styles.fabText}>+</Text>
+        </TouchableOpacity>
+
       </View>
-    </View>
+    </View >
   )
 }
 
@@ -131,6 +149,7 @@ const styles = StyleSheet.create({
   },
   rightColumn: {
     gap: 10,
+    alignItems: 'flex-end'
   },
   txIncome: {
     color: '#7FFE8C',
@@ -145,13 +164,34 @@ const styles = StyleSheet.create({
   deleteBtn: {
 
   },
-  deleteTxt: {
-    color: 'red',
-    fontFamily: 'Geist-Regular',
+  deleteIcon: {
+    width: 20,
+    height: 20,
+    marginRight: 10,
   },
   emptyText: {
     color: '#8d998d',
     textAlign: 'center',
     marginTop: 20,
+  },
+  fabButton: {
+    position: 'absolute',
+    bottom: '15%',
+    alignSelf: 'center',
+    width: 54,
+    height: 54,
+    borderRadius: 27,
+    borderWidth: 2,
+    borderColor: '#000',
+    backgroundColor: '#7FFE8C',
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+
+  fabText: {
+    fontSize: 32,
+    color: '#050E07',
+    fontFamily: 'Geist-Bold',
+    lineHeight: 42,
   },
 })

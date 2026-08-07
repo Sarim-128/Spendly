@@ -3,11 +3,11 @@ import React from 'react'
 
 const MainButton = ({ onPress, styleBtn, title }: any) => {
     return (
-        <View>
-            <TouchableOpacity onPress={onPress} style={[styles.button, styleBtn]}>
-                <Text style={styles.text}>{title}</Text>
-            </TouchableOpacity>
-        </View>
+
+        <TouchableOpacity onPress={onPress} style={[styles.button, styleBtn]}>
+            <Text style={styles.text}>{title}</Text>
+        </TouchableOpacity>
+
     )
 }
 
@@ -15,7 +15,7 @@ export default MainButton
 
 const styles = StyleSheet.create({
     button: {
-        width: '93%',
+        width: '90%',
         backgroundColor: '#7FFE8C',
         padding: 12,
         height: 50,
@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         marginVertical: 12,
-        alignSelf:'center'
+        alignSelf: 'center'
     },
     text: {
         fontFamily: 'Geist-Bold',

@@ -28,7 +28,6 @@ const styles = StyleSheet.create({
         height: 50,
         marginVertical: 12,
         width: "95%",
-        alignSelf: 'center',
         borderWidth: 1,
         borderColor: 'rgba(74, 222, 128, 0.5)'
     },
@@ -41,7 +40,6 @@ const styles = StyleSheet.create({
     },
     input: {
         flex: 1,
-        height: '100%',
         color: '#A3BFA5',
         fontFamily: 'Geist-Regular'
     },

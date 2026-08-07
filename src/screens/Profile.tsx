@@ -45,7 +45,7 @@ const Profile = ({ navigation }: any) => {
             <Image style={styles.headerImage} source={require('../assets/images/profile/share.png')} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'SignIn' }] })}>
+          <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })}>
             <Image style={styles.headerImage} source={require('../assets/images/profile/logout.png')} />
           </TouchableOpacity>
 
