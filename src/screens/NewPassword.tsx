@@ -69,7 +69,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#050E07'
     },
     heading: {
-        marginTop: 30,
+        marginTop: 60,
         fontSize: 24,
         color: '#7FFE8C',
         fontFamily: 'Geist-Bold',
@@ -77,7 +77,7 @@ const styles = StyleSheet.create({
     },
     para: {
         fontSize: 16,
-        color: '#9FA5C0',
+        color: '#A3BFA5',
         fontFamily: 'Geist-Regular',
         marginBottom: 30,
     },

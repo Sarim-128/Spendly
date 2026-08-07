@@ -33,7 +33,7 @@ const PasswordRecovery = ({ navigation }: any) => {
             <MainButton
                 title="Continue"
                 styleBtn={{ marginTop: 15, }}
-                onPress={()=>navigation.navigate('Verification')}
+                onPress={() => navigation.navigate('Verification')}
             />
         </View>
     )
@@ -47,7 +47,7 @@ const styles = StyleSheet.create({
         backgroundColor: '#050E07',
         alignItems: 'center',
         flex: 1,
-        padding: 15,
+        padding: 20,
     },
     heading: {
         fontSize: 24,

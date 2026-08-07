@@ -17,7 +17,7 @@ spotlightPath.close();
 
 
 
-const Login = () => {
+const Login = ({ navigation }: any) => {
 
     const [boxLayout, setBoxLayout] = useState({ width: 0, height: 0 });
 
@@ -155,7 +155,7 @@ const Login = () => {
 
                 <PasswordInput />
 
-                <TouchableOpacity style={styles.forgotPassBtn}>
+                <TouchableOpacity onPress={() => navigation.navigate("PasswordRecovery")} style={styles.forgotPassBtn}>
                     <Text style={styles.forgotPassTxt}>Forgot password?</Text>
                 </TouchableOpacity>
 
@@ -177,7 +177,7 @@ const Login = () => {
 
             <View style={styles.footerContainer}>
                 <Text style={styles.footerTitle}>Don't have an account?</Text>
-                <TouchableOpacity style={styles.footerBtn}>
+                <TouchableOpacity onPress={() => navigation.navigate('SignUp')} style={styles.footerBtn}>
                     <Text style={styles.footerText}>Sign Up</Text>
                 </TouchableOpacity>
             </View>

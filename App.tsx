@@ -13,6 +13,7 @@ import { TransactionProvider } from './src/screens/TransactionContext';
 import PasswordRecovery from './src/screens/PasswordRecovery';
 import Verification from './src/screens/Verification';
 import NewPassword from './src/screens/NewPassword';
+import SignUp from './src/screens/SignUp';
 
 
 
@@ -117,10 +118,11 @@ const App = () => {
     <TransactionProvider>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          {/* <Stack.Screen name='Login' component={Login} /> */}
-          {/* <Stack.Screen name='PasswordRecovery' component={PasswordRecovery} /> */}
-          {/* <Stack.Screen name='Verification' component={Verification} /> */}
+          <Stack.Screen name='Login' component={Login} />
+          <Stack.Screen name='PasswordRecovery' component={PasswordRecovery} />
+          <Stack.Screen name='Verification' component={Verification} />
           <Stack.Screen name='NewPassword' component={NewPassword} />
+          <Stack.Screen name='SignUp' component={SignUp} />
           <Stack.Screen name='DashboardTabs' component={DashboardTabs} />
           <Stack.Screen name='AddTransaction' component={Addtransaction} />
         </Stack.Navigator>

@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Alert, Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
 import React, { useEffect, useRef, useState } from 'react'
 import MainButton from '../components/MainButton';
 
@@ -69,6 +69,7 @@ const Verification = ({ navigation }: any) => {
     const handleVerify = () => {
 
         if (isCodeComplete) {
+            Keyboard.dismiss()
             navigation.navigate('NewPassword')
         }
 
@@ -135,15 +136,15 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         alignItems: 'center',
-        paddingTop: 80,
         backgroundColor: '#050E07',
-        paddingHorizontal: 24,
+        padding: 20,
     },
     heading: {
         fontSize: 24,
         color: '#7FFE8C',
         fontFamily: 'Geist-Bold',
         marginBottom: 8,
+        marginTop:60
     },
     subHeading: {
         fontSize: 16,
