@@ -4,7 +4,9 @@ import { useFocusEffect } from '@react-navigation/native'
 import { useTransactions } from './TransactionContext'
 import { FormatCurrency } from '../components/FormatCurrency'
 
-const Dashboard = ({ navigation, route }: any) => {
+
+const Dashboard = ({ navigation, }: any) => {
+
 
     const { transactions } = useTransactions();
     const recentTransactions = transactions.slice(0, 5);
@@ -28,6 +30,10 @@ const Dashboard = ({ navigation, route }: any) => {
             totalBalance: income - expenses
         }
     }, [transactions])
+
+
+
+
 
     return (
         <View style={styles.screenWrapper}>
@@ -88,11 +94,11 @@ const Dashboard = ({ navigation, route }: any) => {
                         <Text style={styles.seeAllBtn}>See all ➔</Text>
                     </TouchableOpacity>
 
-
                 </View>
 
+
                 <FlatList
-                    showsHorizontalScrollIndicator={false}
+                    showsVerticalScrollIndicator={false}
                     style={{ flex: 1 }}
                     keyExtractor={(item, index) => item.id || index.toString()}
                     data={recentTransactions}
@@ -230,6 +236,7 @@ const styles = StyleSheet.create({
     transactionContainer: {
         flexDirection: 'row',
         justifyContent: 'space-between',
+        marginBottom: 15,
 
     },
     transactionHeading: {

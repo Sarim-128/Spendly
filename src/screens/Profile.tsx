@@ -1,9 +1,19 @@
-import { Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { FlatList, Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import React, { useMemo, useState } from 'react'
+import { useTransactions } from './TransactionContext'
+import { FormatCurrency } from '../components/FormatCurrency';
 
 const Profile = ({ navigation }: any) => {
 
+  const { transactions } = useTransactions();
+
+
+
   const [activeTab, setActiveTab] = useState<'income' | 'expenses'>('income')
+
+  const filteredTransactions = transactions.filter(
+    (item) => item.type === activeTab
+  )
 
   const onShare = async () => {
     try {
@@ -15,10 +25,17 @@ const Profile = ({ navigation }: any) => {
       console.log("Error sharing profile: ", error)
     }
   }
+
+
+  const totalBalance = useMemo(() => {
+    return transactions.reduce((acc, curr) => {
+      return curr.type === 'income' ? acc + curr.amount : acc - curr.amount;
+    }, 0);
+  }, [transactions]);
+
+
   return (
-    <View>
-
-
+    <View style={styles.container}>
 
       <View style={styles.upperContainer}>
 
@@ -45,7 +62,7 @@ const Profile = ({ navigation }: any) => {
 
           <View style={styles.statBox}>
             <Text style={styles.dataCount}>Balance</Text>
-            <Text style={styles.dataText}>$12441</Text>
+            <Text style={styles.dataText}>{FormatCurrency(totalBalance)}</Text>
           </View>
 
         </View>
@@ -75,22 +92,29 @@ const Profile = ({ navigation }: any) => {
       </View>
 
 
-      <View style={styles.emptyStateContainer}>
-        <Image style={styles.notFoundImage}
-        />
+      <View style={styles.listSectionContainer}>
+        <FlatList
+          data={filteredTransactions}
+          keyExtractor={(item) => item.id}
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={styles.listContainer}
+          renderItem={({ item }) => (
+            <View style={styles.transactionCard}>
 
-        <Text style={styles.emptyTitle}>
-          {activeTab === 'income' ? "No Recipes Yet ! " : "No Liked Recipe"}
-        </Text>
+              <Text style={styles.txTitle}>{item.title}</Text>
+              <Text style={activeTab === 'income' ? styles.txtIncome : styles.txtExpenses}>
+                {item.type === 'income' ? `+${FormatCurrency(item.amount)}` : `-${FormatCurrency(item.amount)}`}
+              </Text>
 
-        <Text style={styles.emptySubTitle}>
-          {activeTab === 'expenses' ?
-            "Recipes You upload will be saved here."
-            :
-            "Recipes you like will be saved here."
+            </View>
+
+          )}
+          ListEmptyComponent={
+            <Text style={styles.emptyText}>
+              {activeTab === 'income' ? ' No Income records found.' : 'No expense record found.'}
+            </Text>
           }
-
-        </Text>
+        />
       </View>
 
     </View >
@@ -100,12 +124,18 @@ const Profile = ({ navigation }: any) => {
 export default Profile
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: '#050E07',
+  },
   upperContainer: {
     backgroundColor: '#050E07',
-    padding: 25,
+    paddingHorizontal: 25,
+    paddingTop: 25,
+    paddingBottom: 20,
     alignItems: 'center',
     borderBottomWidth: 1,
-    borderBottomColor: '#7FFE8C'
+    borderBottomColor: '#113C1B',
   },
   headerContainer: {
     flexDirection: 'row',
@@ -113,31 +143,29 @@ const styles = StyleSheet.create({
     width: '100%',
     alignItems: 'center',
     marginBottom: 10,
-
   },
   headerImage: {
-    width: 25,
-    height: 25,
-    marginBottom: 15,
+    width: 24,
+    height: 24,
   },
   profilePic: {
-    width: 100,
-    height: 100,
-    borderRadius: 50,
-    borderWidth: 3,
-    borderColor: '#7FFE8C'
+    width: 90,
+    height: 90,
+    borderRadius: 45,
+    borderWidth: 2,
+    borderColor: '#7FFE8C',
   },
   name: {
-    color: '#7FFE8C',
-    fontSize: 16,
+    color: '#FFFFFF',
+    fontSize: 18,
     fontFamily: 'Geist-Bold',
-    marginTop: 15,
+    marginTop: 12,
   },
   statsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-around',
+    justifyContent: 'center',
     width: '100%',
-    marginTop: 20,
+    marginTop: 15,
   },
   statBox: {
     alignItems: 'center',
@@ -149,64 +177,76 @@ const styles = StyleSheet.create({
   },
   dataText: {
     color: '#7FFE8C',
-    fontSize: 18,
+    fontSize: 22,
     fontFamily: 'Geist-Bold'
 
   },
-  lowerContainer: {
-    backgroundColor: '#FFFFFF',
-    flexDirection: 'row',
-    justifyContent: 'space-around'
-  },
   tabContainer: {
-    backgroundColor: "#050E07",
+    backgroundColor: '#050E07',
     flexDirection: 'row',
     borderBottomWidth: 1,
-    borderBottomColor: '#E2E8F0',
+    borderBottomColor: '#113C1B',
   },
   tabButton: {
     flex: 1,
     alignItems: 'center',
     paddingVertical: 14,
-    borderBottomWidth: 3,
+    borderBottomWidth: 2,
     borderBottomColor: 'transparent',
   },
   activeTabButton: {
-    borderBottomColor: '#A3BFA5'
+    borderBottomColor: '#7FFE8C'
   },
   btnTextActive: {
-    color: '#A3BFA5',
-    fontSize: 16,
+    color: '#7FFE8C',
+    fontSize: 15,
     fontFamily: 'Geist-Bold',
   },
   btnTextInactive: {
-    color: '#9FA5C0',
-    fontSize: 16,
-    fontFamily: 'Geist-Bold',
-  },
-  emptyStateContainer: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    paddingVertical: 40,
-    paddingBottom: 70,
-    backgroundColor: 'white'
-  },
-  notFoundImage: {
-    width: 100,
-    height: 100,
-    marginBottom: 16,
-  },
-  emptyTitle: {
-    fontSize: 16,
-    fontFamily: 'Geist-Bold',
-    color: '#3E5481',
-    marginBottom: 6,
-  },
-  emptySubTitle: {
-    fontSize: 14,
+    color: '#8D998D',
+    fontSize: 15,
     fontFamily: 'Geist-Regular',
-    color: '#9FA5C0',
+  },
+  listSectionContainer: {
+    flex: 1,
+    paddingHorizontal: 20,
+    paddingTop: 15,
+    backgroundColor: '#0B1C10'
+  },
+  listContainer: {
+    paddingBottom: 40,
+  },
+  transactionCard: {
+    backgroundColor: '#0B1C10',
+    padding: 16,
+    borderRadius: 14,
+    borderWidth: 1,
+    borderColor: '#113C1B',
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
+  txTitle: {
+    color: '#FFFFFF',
+    fontSize: 15,
+    fontFamily: 'Geist-Bold',
+  },
+  txtIncome: {
+    color: '#7FFE8C',
+    fontSize: 16,
+    fontFamily: 'Geist-Bold',
+  },
+  txtExpenses: {
+    color: '#FF6B6B',
+    fontSize: 16,
+    fontFamily: 'Geist-Bold',
+  },
+  emptyText: {
+    color: '#8D998D',
     textAlign: 'center',
+    marginTop: 40,
+    fontFamily: 'Geist-Regular',
   },
 
 })

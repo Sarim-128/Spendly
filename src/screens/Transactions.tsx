@@ -2,7 +2,7 @@ import { Alert, FlatList, ScrollView, StyleSheet, Text, Touchable, TouchableOpac
 import React from 'react'
 import { useTransactions } from './TransactionContext'
 
-const Transactions = ({ route }: any) => {
+const Transactions = () => {
 
   const { transactions, deleteTransaction } = useTransactions();
 
