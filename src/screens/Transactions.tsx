@@ -5,7 +5,7 @@ import { FormatCurrency } from '../components/FormatCurrency';
 
 const Transactions = ({ navigation }: any) => {
 
-  const { transactions, deleteTransaction } = useTransactions();
+  const { transactions, deleteTransaction, clearAllTransactions } = useTransactions();
 
   const handleDeletePrompot = (id: string, title: string) => {
     Alert.alert(
@@ -18,11 +18,30 @@ const Transactions = ({ navigation }: any) => {
     )
   }
 
+  const handleClearAll = () => {
+    Alert.alert(
+      'Clear All ',
+      'Are you sure you want to clear all transactios?',
+      [
+        { text: 'No', style: 'cancel' },
+        { text: 'Yes', style: 'default', onPress: clearAllTransactions }
+      ]
+    )
+  }
+
   return (
     <View style={styles.container}>
       <View style={styles.headerContainer}>
+
         <Text style={styles.heading}>All Transactions</Text>
-        <Text style={styles.subHeading}>{transactions.length} Total Recorded</Text>
+
+        <View style={{ flexDirection: 'row', gap: 10, alignItems: 'center', marginTop: 8 }}>
+          <Text style={styles.subHeading}>{transactions.length} Total Recorded</Text>
+          <TouchableOpacity onPress={handleClearAll} style={styles.clearBtn}>
+            <Text style={styles.clearBtnTxt}>Clear All</Text>
+          </TouchableOpacity>
+        </View>
+
       </View>
 
 
@@ -98,7 +117,15 @@ const styles = StyleSheet.create({
     fontSize: 12,
     fontFamily: 'Geist-Regular',
     color: '#A3BFA5',
-    marginTop: 4,
+  },
+  clearBtn: {
+    justifyContent: 'center',
+    alignItems: 'center'
+  },
+  clearBtnTxt: {
+    color: 'red',
+    fontFamily: 'Geist-Regular',
+    fontSize: 12,
   },
   listBox: {
     backgroundColor: '#0B1C10',

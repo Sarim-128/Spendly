@@ -1,11 +1,15 @@
-import { View, Text, ScrollView, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
-import React, { useCallback, useMemo, useState } from 'react'
-import { useFocusEffect } from '@react-navigation/native'
+import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
+import React, { useMemo, } from 'react'
+
 import { useTransactions } from './TransactionContext'
 import { FormatCurrency } from '../components/FormatCurrency'
+import { Shadow } from 'react-native-shadow-2'
+import Svg, { Defs, RadialGradient, Stop, Rect } from 'react-native-svg';
 
 
 const Dashboard = ({ navigation, }: any) => {
+
+
 
 
     const { transactions } = useTransactions();
@@ -38,6 +42,10 @@ const Dashboard = ({ navigation, }: any) => {
     return (
         <View style={styles.screenWrapper}>
 
+            
+
+
+
             <View style={{ flex: 1 }}>
 
                 {/* HEADER SECTION */}
@@ -53,37 +61,47 @@ const Dashboard = ({ navigation, }: any) => {
 
                 {/* BALANCE CARD SECTION */}
 
-                <View style={styles.balanceCardContainer}>
-                    <Text style={styles.totalBalanceHeading}>Total Balance</Text>
-                    <Text style={styles.totalBalanceValue}>{FormatCurrency(totalBalance)}</Text>
+                <Shadow
+                    startColor='rgba(127, 254, 140, 0.35)'
+                    endColor="rgba(127, 254, 140, 0.0)"
+                    distance={10}
+                    containerStyle={{ marginVertical: 30 }}
+                >
+                    <View style={styles.balanceCardContainer}>
 
-                    <View style={styles.secondaryCardsContainer}>
 
-                        <View style={styles.incomeContainer}>
+                        <Text style={styles.totalBalanceHeading}>Total Balance</Text>
+                        <Text style={styles.totalBalanceValue}>{FormatCurrency(totalBalance)}</Text>
 
-                            <View style={[styles.secondaryCardsIconContainer, { backgroundColor: '#113C1B' }]}>
-                                <Image style={[styles.secondaryCardsIcon, { transform: [{ rotate: '45deg' }] }]} source={require('../assets/images/dashboard/greenArrow.png')} />
-                            </View>
-                            <View>
-                                <Text style={styles.incomeHeading}>Income</Text>
-                                <Text style={styles.incomeValue}>{FormatCurrency(totalIncome)}</Text>
-                            </View>
+                        <View style={styles.secondaryCardsContainer}>
 
-                        </View>
+                            <View style={styles.incomeContainer}>
 
-                        <View style={styles.expenseContainer}>
+                                <View style={[styles.secondaryCardsIconContainer, { backgroundColor: '#113C1B' }]}>
+                                    <Image style={[styles.secondaryCardsIcon, { transform: [{ rotate: '45deg' }] }]} source={require('../assets/images/dashboard/greenArrow.png')} />
+                                </View>
+                                <View>
+                                    <Text style={styles.incomeHeading}>Income</Text>
+                                    <Text style={styles.incomeValue}>{FormatCurrency(totalIncome)}</Text>
+                                </View>
 
-                            <View style={[styles.secondaryCardsIconContainer, { backgroundColor: '#441814' }]}>
-                                <Image style={[styles.secondaryCardsIcon, { transform: [{ rotate: '45deg' }] }]} source={require('../assets/images/dashboard/redArrow.png')} />
-                            </View>
-                            <View>
-                                <Text style={styles.expenseHeading}>Expenses</Text>
-                                <Text style={styles.expenseValue}>{FormatCurrency(totalExpenses)}</Text>
                             </View>
 
+                            <View style={styles.expenseContainer}>
+
+                                <View style={[styles.secondaryCardsIconContainer, { backgroundColor: '#441814' }]}>
+                                    <Image style={[styles.secondaryCardsIcon, { transform: [{ rotate: '45deg' }] }]} source={require('../assets/images/dashboard/redArrow.png')} />
+                                </View>
+                                <View>
+                                    <Text style={styles.expenseHeading}>Expenses</Text>
+                                    <Text style={styles.expenseValue}>{FormatCurrency(totalExpenses)}</Text>
+                                </View>
+
+                            </View>
                         </View>
                     </View>
-                </View>
+                </Shadow>
+
 
 
 
@@ -169,7 +187,6 @@ const styles = StyleSheet.create({
         backgroundColor: '#7FFE8C',
         padding: 15,
         borderRadius: 25,
-        marginVertical: 30,
     },
     totalBalanceHeading: {
         color: '#000',
@@ -316,6 +333,7 @@ const styles = StyleSheet.create({
         color: '#000000',
         lineHeight: 34,
     },
+
 
 
 })

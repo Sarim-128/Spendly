@@ -1,25 +1,49 @@
-import { Dimensions, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import MainInput from '../components/MainInput'
 import MainButton from '../components/MainButton'
 import PasswordInput from '../components/PasswordInput'
 import { Blur, Canvas, RadialGradient, vec, BoxShadow, RoundedRect, rrect, rect, Rect, Skia, Path, LinearGradient } from '@shopify/react-native-skia'
+import { storage } from '../utils/storage'
+
 
 const { width, height } = Dimensions.get('window');
-const leftRightCard = rrect(rect(0, 0, 58, 58), 18, 18);
-const centerCard = rrect(rect(0, 0, 76, 76), 24, 24);
-const spotlightPath = Skia.Path.Make();
-spotlightPath.moveTo(width / 2 - 20, 0);          // Top left of beam origin
-spotlightPath.lineTo(width / 2 + 20, 0);          // Top right of beam origin
-spotlightPath.lineTo(width / 2 + 140, 220);       // Bottom right expansion
-spotlightPath.lineTo(width / 2 - 140, 220);       // Bottom left expansion
-spotlightPath.close();
+
 
 
 
 const Login = ({ navigation }: any) => {
 
+    const handleLogin = () => {
+        storage.set('isLoggedIn', true)
+
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'DashboardTabs' }]
+        })
+
+    }
+
     const [boxLayout, setBoxLayout] = useState({ width: 0, height: 0 });
+
+    const leftRightCard = rrect(rect(0, 0, 58, 58), 18, 18);
+    const centerCard = rrect(rect(0, 0, 76, 76), 24, 24);
+    const builder = Skia.PathBuilder.Make();
+    builder.moveTo(width / 2 - 20, 0);          // Top left of beam origin
+    builder.lineTo(width / 2 + 20, 0);          // Top right of beam origin
+    builder.lineTo(width / 2 + 140, 220);       // Bottom right expansion
+    builder.lineTo(width / 2 - 140, 220);       // Bottom left expansion
+    builder.close();
+
+    const spotlightPath = builder.build();
+
+
+    const handleLayout = (e: LayoutChangeEvent) => {
+        const { width: w, height: h } = e.nativeEvent.layout;
+        if (boxLayout.width !== w || boxLayout.height !== h) {
+            setBoxLayout({ width: w, height: h });
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -107,12 +131,7 @@ const Login = ({ navigation }: any) => {
 
             <View
                 style={styles.box}
-                onLayout={(e) => {
-                    const { width, height } = e.nativeEvent.layout;
-                    requestAnimationFrame(() => {
-                        setBoxLayout({ width, height })
-                    })
-                }}
+                onLayout={handleLayout}
             >
                 {/* Background Canvas */}
                 {boxLayout.height > 0 && (
@@ -160,6 +179,7 @@ const Login = ({ navigation }: any) => {
                 </TouchableOpacity>
 
                 <MainButton
+                    onPress={handleLogin}
                     title="Login"
                 />
 
@@ -291,7 +311,6 @@ const styles = StyleSheet.create({
         alignSelf: 'center',
     },
     googleBtn: {
-        width: '93%',
         borderWidth: 1,
         borderColor: '#A3BFA5',
         padding: 6,

@@ -1,9 +1,20 @@
 import { FlatList, Image, Share, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useMemo, useState } from 'react'
 import { useTransactions } from './TransactionContext'
+
 import { FormatCurrency } from '../components/FormatCurrency';
+import { storage } from '../utils/storage';
 
 const Profile = ({ navigation }: any) => {
+
+  const handleLogout = () => {
+    storage.set('isLoggedIn', false)
+
+    navigation.reset({
+      index: 0,
+      routes: [{ name: 'Login' }]
+    })
+  }
 
   const { transactions } = useTransactions();
 
@@ -45,7 +56,7 @@ const Profile = ({ navigation }: any) => {
             <Image style={styles.headerImage} source={require('../assets/images/profile/share.png')} />
           </TouchableOpacity>
 
-          <TouchableOpacity onPress={() => navigation.reset({ index: 0, routes: [{ name: 'Login' }] })}>
+          <TouchableOpacity onPress={handleLogout}>
             <Image style={styles.headerImage} source={require('../assets/images/profile/logout.png')} />
           </TouchableOpacity>
 

@@ -1,10 +1,10 @@
 import { Image, StyleSheet, Text, View } from 'react-native'
 import React from 'react'
 
-const TabIcon = ({ focused, source }: any) => {
+const TabIcon = ({ focused, source, styleImg }: any) => {
     return (
         <View style={[styles.container, focused && styles.activeContainer]}>
-            <Image resizeMode="contain" source={source} style={styles.image} />
+            <Image resizeMode="contain" source={source} style={[styles.image, styleImg]} />
         </View>
     )
 }
@@ -26,7 +26,7 @@ const styles = StyleSheet.create({
     },
     image: {
         width: 22,
-        height: 22
+        height: 22,
     }
 
 })

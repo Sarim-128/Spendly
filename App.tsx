@@ -2,11 +2,10 @@ import { BlurView } from '@sbaiahmed1/react-native-blur'
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack'
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
-import Login from './src/screens/Login';
 import Dashboard from './src/screens/Dashboard';
 import Transactions from './src/screens/Transactions';
 import Profile from './src/screens/Profile';
-import { Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { StyleSheet, } from 'react-native';
 import TabIcon from './src/components/TabIcon';
 import Addtransaction from './src/screens/Addtransaction';
 import { TransactionProvider } from './src/screens/TransactionContext';
@@ -14,6 +13,9 @@ import PasswordRecovery from './src/screens/PasswordRecovery';
 import Verification from './src/screens/Verification';
 import NewPassword from './src/screens/NewPassword';
 import SignUp from './src/screens/SignUp';
+import { useState } from 'react';
+import { storage } from './src/utils/storage';
+import Login from './src/screens/Login';
 
 
 
@@ -34,12 +36,6 @@ const DashboardTabs = () => {
         backgroundColor: 'transparent',
         borderTopWidth: 0,
         overflow: 'hidden',
-        elevation: 5,
-        shadowColor: '#000',
-        shadowOffset: { width: 0, height: 10 },
-        shadowOpacity: 0.1,
-        shadowRadius: 10,
-
       },
       tabBarItemStyle: {
         justifyContent: 'center',
@@ -91,8 +87,10 @@ const DashboardTabs = () => {
 
 
       <Tabs.Screen name='Profile' component={Profile} options={{
+
         tabBarIcon: ({ focused }) => (
           <TabIcon
+            styleImg={{ marginLeft: 2.5, }}
             focused={focused}
             source={focused ?
               require('./src/assets/images/dashboard/profileActive.png')
@@ -114,10 +112,15 @@ const DashboardTabs = () => {
 const Stack = createNativeStackNavigator();
 
 const App = () => {
+
+  const [isLoggedIn] = useState(() => storage.getBoolean('isLoggedIn') ?? false)
   return (
     <TransactionProvider>
       <NavigationContainer>
-        <Stack.Navigator screenOptions={{ headerShown: false }}>
+        <Stack.Navigator
+          initialRouteName={isLoggedIn ? 'DashboardTabs' : 'Login'}
+          screenOptions={{ headerShown: false }}>
+
           <Stack.Screen name='Login' component={Login} />
           <Stack.Screen name='PasswordRecovery' component={PasswordRecovery} />
           <Stack.Screen name='Verification' component={Verification} />
@@ -125,6 +128,7 @@ const App = () => {
           <Stack.Screen name='SignUp' component={SignUp} />
           <Stack.Screen name='DashboardTabs' component={DashboardTabs} />
           <Stack.Screen name='AddTransaction' component={Addtransaction} />
+
         </Stack.Navigator>
       </NavigationContainer>
     </TransactionProvider>
