@@ -117,7 +117,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           {/* <Stack.Screen name='Login' component={Login} /> */}
-          <Stack.Screen name='PasswordRecovery' component={PasswordRecovery} />
+          {/* <Stack.Screen name='PasswordRecovery' component={PasswordRecovery} /> */}
           <Stack.Screen name='Verification' component={Verification} />
           <Stack.Screen name='DashboardTabs' component={DashboardTabs} />
           <Stack.Screen name='AddTransaction' component={Addtransaction} />
