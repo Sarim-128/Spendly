@@ -1,7 +1,7 @@
 import { Image, StyleSheet, Text, TextInput, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 
-const PasswordInput = ({ value, onChangeText, style, source }: any) => {
+const PasswordInput = ({ value, onChangeText, style, source, onBlur }: any) => {
 
     const [show, setShow] = useState(false);
 
@@ -15,6 +15,7 @@ const PasswordInput = ({ value, onChangeText, style, source }: any) => {
                 placeholder='Enter your password'
                 style={[styles.input, style]}
                 secureTextEntry={!show}
+                onBlur={onBlur}
             />
             <TouchableOpacity onPress={() => setShow(prev => !prev)}>
                 <Image style={styles.image} source={require('../assets/images/login/visible.png')} />

@@ -1,16 +1,14 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
 import React, { useMemo, } from 'react'
-
 import { useTransactions } from './TransactionContext'
 import { FormatCurrency } from '../components/FormatCurrency'
 import { Shadow } from 'react-native-shadow-2'
-import Svg, { Defs, RadialGradient, Stop, Rect } from 'react-native-svg';
+
 
 
 const Dashboard = ({ navigation, }: any) => {
 
-
-
+    
 
     const { transactions } = useTransactions();
     const recentTransactions = transactions.slice(0, 5);
@@ -42,7 +40,7 @@ const Dashboard = ({ navigation, }: any) => {
     return (
         <View style={styles.screenWrapper}>
 
-            
+
 
 
 
@@ -55,7 +53,9 @@ const Dashboard = ({ navigation, }: any) => {
                         <Text style={styles.greetings}>Welcome Back!</Text>
                         <Text style={styles.username}>Sarim Hussain</Text>
                     </View>
-                    <Image style={styles.profilePic} source={require('../assets/images/dashboard/pfp6.jpg')} />
+                    <TouchableOpacity onPress={() => navigation.navigate('Profile')}>
+                        <Image style={styles.profilePic} source={require('../assets/images/dashboard/pfp6.jpg')} />
+                    </TouchableOpacity>
                 </View>
 
 

@@ -41,7 +41,7 @@ const Addtransaction = ({ navigation }: any) => {
 
 
 
-        navigation.navigate('DashboardTabs',{screen:'Dashboard'})
+        navigation.navigate('DashboardTabs', { screen: 'Dashboard' })
     }
     return (
         <View style={styles.container}>

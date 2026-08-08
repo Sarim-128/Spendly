@@ -1,22 +1,35 @@
-import { Dimensions, Image, LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
+import { Dimensions, Image, Keyboard, LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
 import React, { useState } from 'react'
 import MainInput from '../components/MainInput'
 import MainButton from '../components/MainButton'
 import PasswordInput from '../components/PasswordInput'
 import { Blur, Canvas, RadialGradient, vec, BoxShadow, RoundedRect, rrect, rect, Rect, Skia, Path, LinearGradient } from '@shopify/react-native-skia'
 import { storage } from '../utils/storage'
+import * as yup from 'yup'
+import { Formik } from 'formik'
 
 
 const { width, height } = Dimensions.get('window');
+
+const LoginSchema = yup.object().shape({
+    email: yup.string()
+        .email('Invalid email address')
+        .required('Email is required'),
+    password: yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required')
+})
 
 
 
 
 const Login = ({ navigation }: any) => {
 
+
+
     const handleLogin = () => {
         storage.set('isLoggedIn', true)
-
+        Keyboard.dismiss()
         navigation.reset({
             index: 0,
             routes: [{ name: 'DashboardTabs' }]
@@ -166,22 +179,50 @@ const Login = ({ navigation }: any) => {
 
 
 
-                <MainInput
-                    placeholder="Enter your email"
-                    source={require('../assets/images/login/mail.png')}
+                <Formik
+                    initialValues={{ email: "", password: '' }}
+                    validationSchema={LoginSchema}
+                    onSubmit={handleLogin}
+                >
+                    {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
 
-                />
+                        <View>
 
-                <PasswordInput />
+                            <MainInput
+                                placeholder="Enter your email"
+                                source={require('../assets/images/login/mail.png')}
+                                value={values.email}
+                                onChangeText={handleChange('email')}
+                                onBlur={handleBlur('email')}
+                                autoCapitalize="none"
+                                keyboardType="email-address"
+                            />
+                            {touched.email && errors.email && (
+                                <Text style={styles.errorTxt}>{errors.email}</Text>
+                            )}
 
-                <TouchableOpacity onPress={() => navigation.navigate("PasswordRecovery")} style={styles.forgotPassBtn}>
-                    <Text style={styles.forgotPassTxt}>Forgot password?</Text>
-                </TouchableOpacity>
 
-                <MainButton
-                    onPress={handleLogin}
-                    title="Login"
-                />
+                            <PasswordInput
+                                value={values.password}
+                                onChangeText={handleChange('password')}
+                                onBlur={handleBlur('password')}
+                            />
+
+                            {touched.password && errors.password && (
+                                <Text style={styles.errorTxt}>{errors.password}</Text>
+                            )}
+
+                            <TouchableOpacity onPress={() => navigation.navigate("PasswordRecovery")} style={styles.forgotPassBtn}>
+                                <Text style={styles.forgotPassTxt}>Forgot password?</Text>
+                            </TouchableOpacity>
+
+                            <MainButton
+                                onPress={() => handleSubmit()}
+                                title="Login"
+                            />
+                        </View>
+                    )}
+                </Formik>
 
                 <Text style={styles.continue}> • Or continue with •</Text>
 
@@ -355,6 +396,13 @@ const styles = StyleSheet.create({
     footerText: {
         fontFamily: 'Geist-Bold',
         color: '#7FFE8C',
+    },
+    errorTxt: {
+        fontFamily: 'Geist-Regular',
+        color: '#FF6B6B',
+        fontSize: 12,
+        marginTop: 4,
+        marginLeft: 4,
     }
 
 })

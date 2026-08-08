@@ -219,6 +219,7 @@ const styles = StyleSheet.create({
     fontSize: 32,
     color: '#050E07',
     fontFamily: 'Geist-Bold',
-    lineHeight: 42,
+    lineHeight: 40,
+    marginBottom: 10,
   },
 })

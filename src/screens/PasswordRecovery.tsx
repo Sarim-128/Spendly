@@ -1,17 +1,22 @@
 import { Keyboard, StyleSheet, Text, View } from "react-native"
-
-import { useState } from "react"
 import MainInput from "../components/MainInput"
-import PasswordInput from "../components/PasswordInput"
 import MainButton from "../components/MainButton"
+import * as yup from 'yup'
+import { Formik } from "formik"
 
 
+const RecoverySchema = yup.object().shape({
+    email: yup.string().email('Invalid email address').required('Email is required')
+})
 
 
 const PasswordRecovery = ({ navigation }: any) => {
 
 
-
+    const handleContinue = () => {
+        Keyboard.dismiss()
+        navigation.navigate('Verification')
+    }
 
     return (
         <View style={styles.container}>
@@ -20,22 +25,39 @@ const PasswordRecovery = ({ navigation }: any) => {
 
             <Text style={styles.subHeading}>Enter your email to recover your password</Text>
 
-            <MainInput
-                source={require('../assets/images/login/mail.png')}
-                placeholder="Email"
-                style={styles.input}
+            <Formik
+                initialValues={{ email: '' }}
+                validationSchema={RecoverySchema}
+                onSubmit={handleContinue}
+            >
 
-            />
+                {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                    < View style={{ alignSelf: 'stretch' }}>
+                        <MainInput
+                            source={require('../assets/images/login/mail.png')}
+                            placeholder="Email"
+                            onChangeText={handleChange('email')}
+                            onBlur={handleBlur('email')}
+                            value={values.email}
+                            autoCapitalize="none"
+                            keyboardType="email-address"
+                        />
 
+                        {touched.email && errors.email && (
+                            <Text style={styles.errorTxt}>{errors.email}</Text>
+                        )}
 
+                        <MainButton
+                            title="Continue"
+                            styleBtn={styles.button}
+                            onPress={() => handleSubmit()}
+                        />
+                    </View>
+                )}
 
+            </Formik >
 
-            <MainButton
-                title="Continue"
-                styleBtn={{ marginTop: 15, }}
-                onPress={() => navigation.navigate('Verification')}
-            />
-        </View>
+        </View >
     )
 }
 
@@ -62,7 +84,15 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         marginTop: 7
     },
-    input: {
-        marginBottom: 0,
+    errorTxt: {
+        fontFamily: 'Geist-Regular',
+        color: '#FF6B6B',
+        fontSize: 12,
+        marginTop: 4,
+        marginLeft: 4,
     },
+    button: {
+        marginTop: 20,
+        width: '100%'
+    }
 })

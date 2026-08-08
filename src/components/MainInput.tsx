@@ -1,7 +1,7 @@
-import { Image, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Image, Keyboard, StyleSheet, Text, TextInput, View } from 'react-native'
 import React from 'react'
 
-const MainInput = ({ placeholder, value, onChangeText, style, source }: any) => {
+const MainInput = ({ placeholder, value, onChangeText, style, source, onBlur, keyboardType }: any) => {
     return (
         <View style={styles.container}>
             <Image style={styles.image} source={source} />
@@ -11,6 +11,8 @@ const MainInput = ({ placeholder, value, onChangeText, style, source }: any) => 
                 placeholderTextColor="#acb0ac"
                 placeholder={placeholder}
                 style={[styles.input, style]}
+                onBlur={onBlur}
+                keyboardType={keyboardType}
             />
         </View>
     )
@@ -29,6 +31,7 @@ const styles = StyleSheet.create({
         marginVertical: 12,
         width: "95%",
         borderWidth: 1,
+        alignSelf: 'center',
         borderColor: 'rgba(74, 222, 128, 0.5)'
     },
     image: {

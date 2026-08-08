@@ -1,58 +1,64 @@
-import { Alert, Image, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import { Keyboard, StyleSheet, Text, View } from 'react-native'
+import React from 'react'
 import MainButton from '../components/MainButton'
 import PasswordInput from '../components/PasswordInput';
+import * as yup from 'yup'
+import { Formik } from "formik"
 
 
+const newPassSchema = yup.object().shape({
+    password: yup.string()
+        .min(6, 'Password must be at least 6 characters')
+        .required('Password is required')
+})
 
 const NewPassword = ({ navigation }: any) => {
-    const [password, setPassword] = useState("");
 
+    const handleLogin = () => {
+        Keyboard.dismiss()
 
+        navigation.reset({
+            index: 0,
+            routes: [{ name: 'DashboardTabs' }]
+        })
+    }
 
-
-
-    const hasMinLength = password.length >= 6
-    const hasNum = /\d/.test(password)
-
-    const isPassowrdValid = hasMinLength && hasNum;
-    const isFormValid = isPassowrdValid
     return (
-
-
 
         //  HEADER
         <View style={styles.container}>
             <Text style={styles.heading}>Reset your password</Text>
             <Text style={styles.para}>Please enter your new password</Text>
 
-            {/* INPUT FEILDS */}
+
+            <Formik
+                initialValues={{ password: '' }}
+                validationSchema={newPassSchema}
+                onSubmit={handleLogin}
+            >
+                {({ handleChange, handleBlur, handleSubmit, values, errors, touched }) => (
+                    <View style={{ alignSelf: 'stretch' }}>
+                        {/* INPUT FEILDS */}
+                        <PasswordInput
+                            placeholder="Password"
+                            value={values.password}
+                            onChangeText={handleChange('password')}
+                            onBlur={handleBlur('password')}
+                        />
+                        {touched.password && errors.password && (
+                            <Text style={styles.errorTxt}>{errors.password}</Text>
+                        )}
 
 
-            <PasswordInput
-                placeholder="Password"
-                value={password}
-                onChangeText={setPassword}
-            />
-
-
-
-
-
-
-            {/* SIGN UP BUTTON */}
-            <MainButton
-                styleBtn={{ marginTop: 20, }}
-                title="Log In"
-                onPress={() => {
-
-                    navigation.reset({
-                        index: 0,
-                        routes: [{ name: 'DashboardTabs' }]
-                    })
-                }}
-
-            />
+                        {/* SIGN UP BUTTON */}
+                        <MainButton
+                            styleBtn={{ marginTop: 20, }}
+                            title="Log In"
+                            onPress={handleSubmit}
+                        />
+                    </View>
+                )}
+            </Formik>
 
 
         </View>
@@ -80,6 +86,13 @@ const styles = StyleSheet.create({
         color: '#A3BFA5',
         fontFamily: 'Geist-Regular',
         marginBottom: 30,
+    },
+    errorTxt: {
+        fontFamily: 'Geist-Regular',
+        color: '#FF6B6B',
+        fontSize: 12,
+        marginTop: 4,
+        marginLeft: 4,
     },
 
 
