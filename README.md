@@ -1,97 +1,33 @@
-This is a new [**React Native**](https://reactnative.dev) project, bootstrapped using [`@react-native-community/cli`](https://github.com/react-native-community/cli).
+# 💸 Spendly
+A sleek, dark-themed personal finance mobile application built with React Native, TypeScript, and React Navigation. Easily track your daily income and expenses, monitor your balance, and stay on top of your financial habits with real-time summary calculations and input sanitization.
 
-# Getting Started
+# ✨ Features
+- Real-time Balance Overview: Automatically updates total balance, total income, and total expenses with dynamic auto-scaling typography to accommodate large numbers without breaking the UI.
 
-> **Note**: Make sure you have completed the [Set Up Your Environment](https://reactnative.dev/docs/set-up-your-environment) guide before proceeding.
+- Smart Input Formatting & Limits: Integrated custom input handlers to format currency seamlessly and limit input digit length.
 
-## Step 1: Start Metro
+- Transaction History: Displays a clean list of recent transactions categorized by income (green) and expenses (red).
 
-First, you will need to run **Metro**, the JavaScript build tool for React Native.
+- Context State Management: Built using React's Context API (TransactionContext) for efficient and global transaction tracking across screens.
 
-To start the Metro dev server, run the following command from the root of your React Native project:
+- Custom UI & Styling: Features high-contrast dark green accents (#7FFE8C, #050E07), smooth drop shadows with react-native-shadow-2, and custom Geist typography.
 
-```sh
-# Using npm
-npm start
+# 🛠️ Tech Stack
+- Framework: React Native (TypeScript)
+- Navigation: React Navigation (Native Stack)
+- Validation: Formik & Yup
 
-# OR using Yarn
-yarn start
-```
+# 📸 Screenshots
+<img width="300" height="550" alt="Screenshot_20260808-202944" src="https://github.com/user-attachments/assets/8d94d4e5-973c-4a5e-8a37-d458a2670e36" />
+<img width="300" height="550" alt="Screenshot_20260808-202919" src="https://github.com/user-attachments/assets/69350521-f62f-4925-be72-a76b5e1594d0" />
+<img width="300" height="550" alt="Screenshot_20260808-202859" src="https://github.com/user-attachments/assets/6e68fb48-dac7-4723-b0da-207948564d35" />
 
-## Step 2: Build and run your app
 
-With Metro running, open a new terminal window/pane from the root of your React Native project, and use one of the following commands to build and run your Android or iOS app:
+# 🚀 Installation
 
-### Android
+```bash
+git clone <repo-url>
+cd Recipeo
+npm install
+npx react-native run-android
 
-```sh
-# Using npm
-npm run android
-
-# OR using Yarn
-yarn android
-```
-
-### iOS
-
-For iOS, remember to install CocoaPods dependencies (this only needs to be run on first clone or after updating native deps).
-
-The first time you create a new project, run the Ruby bundler to install CocoaPods itself:
-
-```sh
-bundle install
-```
-
-Then, and every time you update your native dependencies, run:
-
-```sh
-bundle exec pod install
-```
-
-For more information, please visit [CocoaPods Getting Started guide](https://guides.cocoapods.org/using/getting-started.html).
-
-```sh
-# Using npm
-npm run ios
-
-# OR using Yarn
-yarn ios
-```
-
-If everything is set up correctly, you should see your new app running in the Android Emulator, iOS Simulator, or your connected device.
-
-This is one way to run your app — you can also build it directly from Android Studio or Xcode.
-
-## Step 3: Modify your app
-
-Now that you have successfully run the app, let's make changes!
-
-Open `App.tsx` in your text editor of choice and make some changes. When you save, your app will automatically update and reflect these changes — this is powered by [Fast Refresh](https://reactnative.dev/docs/fast-refresh).
-
-When you want to forcefully reload, for example to reset the state of your app, you can perform a full reload:
-
-- **Android**: Press the <kbd>R</kbd> key twice or select **"Reload"** from the **Dev Menu**, accessed via <kbd>Ctrl</kbd> + <kbd>M</kbd> (Windows/Linux) or <kbd>Cmd ⌘</kbd> + <kbd>M</kbd> (macOS).
-- **iOS**: Press <kbd>R</kbd> in iOS Simulator.
-
-## Congratulations! :tada:
-
-You've successfully run and modified your React Native App. :partying_face:
-
-### Now what?
-
-- If you want to add this new React Native code to an existing application, check out the [Integration guide](https://reactnative.dev/docs/integration-with-existing-apps).
-- If you're curious to learn more about React Native, check out the [docs](https://reactnative.dev/docs/getting-started).
-
-# Troubleshooting
-
-If you're having issues getting the above steps to work, see the [Troubleshooting](https://reactnative.dev/docs/troubleshooting) page.
-
-# Learn More
-
-To learn more about React Native, take a look at the following resources:
-
-- [React Native Website](https://reactnative.dev) - learn more about React Native.
-- [Getting Started](https://reactnative.dev/docs/environment-setup) - an **overview** of React Native and how setup your environment.
-- [Learn the Basics](https://reactnative.dev/docs/getting-started) - a **guided tour** of the React Native **basics**.
-- [Blog](https://reactnative.dev/blog) - read the latest official React Native **Blog** posts.
-- [`@facebook/react-native`](https://github.com/facebook/react-native) - the Open Source; GitHub **repository** for React Native.
