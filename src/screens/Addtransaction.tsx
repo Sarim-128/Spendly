@@ -31,6 +31,15 @@ const Addtransaction = ({ navigation }: any) => {
         }
     }
 
+    const handleAmountChange = (text: string) => {
+
+        const cleanedText = text.replace(/[^0-9]/g, '');
+
+        if (cleanedText.length <= 9) {
+            setAmount(cleanedText);
+        }
+    };
+
     const handleSave = () => {
         addTransaction({
             amount: parseFloat(amount) || 0,
@@ -50,7 +59,7 @@ const Addtransaction = ({ navigation }: any) => {
             <View style={styles.cardContainer}>
 
                 <Text style={styles.cardHeading}>TOTAL BALANCE</Text>
-                <TextInput keyboardType='numeric' onChangeText={setAmount} value={amount} placeholderTextColor="#8d998d" placeholder='0.00' style={styles.cardAmount} />
+                <TextInput keyboardType='numeric' onChangeText={handleAmountChange} value={amount} placeholderTextColor="#8d998d" placeholder='0.00' style={styles.cardAmount} />
 
                 <View style={styles.cardBtnsContainer}>
 

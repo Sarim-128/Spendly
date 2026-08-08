@@ -8,7 +8,7 @@ import { Shadow } from 'react-native-shadow-2'
 
 const Dashboard = ({ navigation, }: any) => {
 
-    
+
 
     const { transactions } = useTransactions();
     const recentTransactions = transactions.slice(0, 5);
@@ -65,13 +65,17 @@ const Dashboard = ({ navigation, }: any) => {
                     startColor='rgba(127, 254, 140, 0.35)'
                     endColor="rgba(127, 254, 140, 0.0)"
                     distance={10}
-                    containerStyle={{ marginVertical: 30 }}
+                    containerStyle={{ width: '100%', marginVertical: 20 }}
                 >
                     <View style={styles.balanceCardContainer}>
 
 
                         <Text style={styles.totalBalanceHeading}>Total Balance</Text>
-                        <Text style={styles.totalBalanceValue}>{FormatCurrency(totalBalance)}</Text>
+                        <Text numberOfLines={1}
+                            adjustsFontSizeToFit
+                            minimumFontScale={0.7}
+                            style={styles.totalBalanceValue}>{FormatCurrency(totalBalance)}</Text>
+
 
                         <View style={styles.secondaryCardsContainer}>
 
@@ -80,9 +84,14 @@ const Dashboard = ({ navigation, }: any) => {
                                 <View style={[styles.secondaryCardsIconContainer, { backgroundColor: '#113C1B' }]}>
                                     <Image style={[styles.secondaryCardsIcon, { transform: [{ rotate: '45deg' }] }]} source={require('../assets/images/dashboard/greenArrow.png')} />
                                 </View>
-                                <View>
+
+                                <View style={styles.secondaryTextWrapper}>
                                     <Text style={styles.incomeHeading}>Income</Text>
-                                    <Text style={styles.incomeValue}>{FormatCurrency(totalIncome)}</Text>
+                                    <Text
+                                        numberOfLines={1}
+                                        adjustsFontSizeToFit
+                                        minimumFontScale={0.7}
+                                        style={styles.incomeValue}>{FormatCurrency(totalIncome)}</Text>
                                 </View>
 
                             </View>
@@ -92,9 +101,14 @@ const Dashboard = ({ navigation, }: any) => {
                                 <View style={[styles.secondaryCardsIconContainer, { backgroundColor: '#441814' }]}>
                                     <Image style={[styles.secondaryCardsIcon, { transform: [{ rotate: '45deg' }] }]} source={require('../assets/images/dashboard/redArrow.png')} />
                                 </View>
-                                <View>
+
+                                <View style={styles.secondaryTextWrapper}>
                                     <Text style={styles.expenseHeading}>Expenses</Text>
-                                    <Text style={styles.expenseValue}>{FormatCurrency(totalExpenses)}</Text>
+                                    <Text
+                                        numberOfLines={1}
+                                        adjustsFontSizeToFit
+                                        minimumFontScale={0.7}
+                                        style={styles.expenseValue}>{FormatCurrency(totalExpenses)}</Text>
                                 </View>
 
                             </View>
@@ -128,7 +142,7 @@ const Dashboard = ({ navigation, }: any) => {
                                 <Text style={styles.txDate}>{item.date}</Text>
                             </View>
                             <Text style={item.type === 'income' ? styles.txIncome : styles.txExpenses}>
-                                {item.type === 'income' ? `+$${item.amount}` : `-$${item.amount}`}
+                                {item.type === 'income' ? `+${FormatCurrency(item.amount)}` : `-${FormatCurrency(item.amount)}`}
                             </Text>
                         </View>
                     )}
@@ -185,8 +199,9 @@ const styles = StyleSheet.create({
     },
     balanceCardContainer: {
         backgroundColor: '#7FFE8C',
-        padding: 15,
+        padding: 16,
         borderRadius: 25,
+        width: '100%',
     },
     totalBalanceHeading: {
         color: '#000',
@@ -197,12 +212,12 @@ const styles = StyleSheet.create({
         color: '#000',
         fontFamily: 'Geist-Bold',
         fontSize: 30,
-        marginBottom: 50,
+        marginBottom: 30,
     },
     secondaryCardsContainer: {
         flexDirection: 'row',
         gap: 10,
-        alignSelf: 'center'
+        width: '100%',
     },
     secondaryCardsIconContainer: {
         justifyContent: 'center',
@@ -210,17 +225,21 @@ const styles = StyleSheet.create({
         width: 32,
         height: 32,
         borderRadius: 16,
-        marginHorizontal: 12,
+        marginHorizontal: 8,
     },
     secondaryCardsIcon: {
         width: 20,
         height: 20,
     },
+    secondaryTextWrapper: {
+        flex: 1,
+    },
     incomeContainer: {
+        flex: 1,
         flexDirection: 'row',
         backgroundColor: '#050E07',
-        paddingVertical: 12,
-        paddingRight: '15%',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
         alignItems: 'center',
         borderRadius: 15,
     },
@@ -234,10 +253,11 @@ const styles = StyleSheet.create({
         fontFamily: 'Geist-Bold'
     },
     expenseContainer: {
+        flex: 1,
         flexDirection: 'row',
         backgroundColor: '#050E07',
-        paddingVertical: 12,
-        paddingRight: '8%',
+        paddingVertical: 10,
+        paddingHorizontal: 10,
         alignItems: 'center',
         borderRadius: 15,
     },
