@@ -1,5 +1,5 @@
 import { Dimensions, Image, Keyboard, LayoutChangeEvent, StyleSheet, Text, TouchableOpacity, View } from 'react-native'
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import MainInput from '../components/MainInput'
 import MainButton from '../components/MainButton'
 import PasswordInput from '../components/PasswordInput'
@@ -7,6 +7,7 @@ import { Blur, Canvas, RadialGradient, vec, BoxShadow, RoundedRect, rrect, rect,
 import { storage } from '../utils/storage'
 import * as yup from 'yup'
 import { Formik } from 'formik'
+import BootSplash from 'react-native-bootsplash'
 
 
 const { width, height } = Dimensions.get('window');
@@ -24,6 +25,10 @@ const LoginSchema = yup.object().shape({
 
 
 const Login = ({ navigation }: any) => {
+
+    useEffect(() => {
+        BootSplash.hide({ fade: true })
+    }, [])
 
 
 
@@ -59,6 +64,8 @@ const Login = ({ navigation }: any) => {
     };
 
     return (
+
+
         <View style={styles.container}>
 
 

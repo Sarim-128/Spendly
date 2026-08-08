@@ -1,14 +1,17 @@
 import { View, Text, Image, StyleSheet, TouchableOpacity, FlatList } from 'react-native'
-import React, { useMemo, } from 'react'
+import React, { useEffect, useMemo, } from 'react'
 import { useTransactions } from './TransactionContext'
 import { FormatCurrency } from '../components/FormatCurrency'
 import { Shadow } from 'react-native-shadow-2'
+import BootSplash from 'react-native-bootsplash'
 
 
 
 const Dashboard = ({ navigation, }: any) => {
 
-
+    useEffect(() => {
+        BootSplash.hide({ fade: true })
+    }, [])
 
     const { transactions } = useTransactions();
     const recentTransactions = transactions.slice(0, 5);
