@@ -29,8 +29,8 @@ const Profile = ({ navigation }: any) => {
   const onShare = async () => {
     try {
       await Share.share({
-        message: "Check out John Steve's delicious recipe on Recipeo !",
-        url: 'https://foodapp.com/profile/johnsteve',
+        message: "Check out Sarim Hussain's Profil!",
+        url: 'https://spendly.com/profile/sarimhussain',
       })
     } catch (error) {
       console.log("Error sharing profile: ", error)
@@ -67,7 +67,7 @@ const Profile = ({ navigation }: any) => {
         <Image style={styles.profilePic} source={require('../assets/images/dashboard/pfp6.jpg')} />
 
 
-        <Text style={styles.name}>John Steve</Text>
+        <Text style={styles.name}>Sarim Hussain</Text>
 
         <View style={styles.statsContainer}>
 
